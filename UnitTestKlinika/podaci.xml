@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Podaci>  
+  <PregledStavka>
+    <RezultatPregleda>ok</RezultatPregleda>
+    <UspjesanPregled>true</UspjesanPregled>
+    <TipSistematskog>Neuropsihijatar</TipSistematskog>
+  </PregledStavka>
+  <PregledStavka>
+    <RezultatPregleda>ok</RezultatPregleda>
+    <UspjesanPregled>true</UspjesanPregled>
+    <TipSistematskog>Neuropsihijatar</TipSistematskog>
+  </PregledStavka>
+  <PregledStavka>
+    <RezultatPregleda>ok</RezultatPregleda>
+    <UspjesanPregled>true</UspjesanPregled>
+    <TipSistematskog>Oftamolog</TipSistematskog>
+  </PregledStavka>
+  <PregledStavka>
+    <RezultatPregleda>ok</RezultatPregleda>
+    <UspjesanPregled>true</UspjesanPregled>
+    <TipSistematskog>Psiholog</TipSistematskog>
+  </PregledStavka>
+  <PregledStavka>
+    <RezultatPregleda>ok</RezultatPregleda>
+    <UspjesanPregled>true</UspjesanPregled>
+    <TipSistematskog>Opci</TipSistematskog>
+  </PregledStavka>
+</Podaci>
