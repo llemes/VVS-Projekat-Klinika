@@ -19,10 +19,10 @@ namespace UnitTestKlinika
         [TestMethod]
         public void DodajOrdinaciju()
         {
-            Assert.AreEqual("hirurgija", EvidencijaOrdinacija.Get(id2).Naziv);
-            Assert.IsNotNull(EvidencijaOrdinacija.Get(id2).OpsluzeniPacijenti);
-            Assert.IsNotNull(EvidencijaOrdinacija.Get(id2).RedCekanja);
-            Assert.IsNotNull(EvidencijaOrdinacija.Get(id2).Aparati);
+            Assert.AreEqual("hirurgija", EvidencijaOrdinacija.GetOrdinacijaById(id2).Naziv);
+            Assert.IsNotNull(EvidencijaOrdinacija.GetOrdinacijaById(id2).OpsluzeniPacijenti);
+            Assert.IsNotNull(EvidencijaOrdinacija.GetOrdinacijaById(id2).RedCekanja);
+            Assert.IsNotNull(EvidencijaOrdinacija.GetOrdinacijaById(id2).Aparati);
         }
 
         [TestMethod]

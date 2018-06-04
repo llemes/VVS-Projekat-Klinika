@@ -11,21 +11,21 @@ namespace UnitTestKlinika
         [ExpectedException(typeof(ArgumentException))]
         public void GetInvalidId()
         {
-            Uposleni u1 = EvidencijaUposlenih.Get(-1);
+            Uposleni u1 = EvidencijaUposlenih.GetUposleniById(-1);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void GetEmptyList()
         {
-            Uposleni u2 = EvidencijaUposlenih.Get(1000);
+            Uposleni u2 = EvidencijaUposlenih.GetUposleniById(1000);
         }
 
         [TestMethod]
         public void DodajCistac()
         {
             int id = EvidencijaUposlenih.DodajCistac("Joyce", "Byers");
-            Uposleni temp = EvidencijaUposlenih.Get(id);
+            Uposleni temp = EvidencijaUposlenih.GetUposleniById(id);
             Assert.AreEqual(800, temp.Plata);
             Assert.IsInstanceOfType(temp, typeof(UposleniCistac));
         }
@@ -43,10 +43,10 @@ namespace UnitTestKlinika
         {
             int idOrdinacije = EvidencijaOrdinacija.DodajOrdinaciju("radioloska");
             //Assert.AreEqual(0, idOrdinacije);
-            Assert.AreEqual("radioloska", EvidencijaOrdinacija.Get(idOrdinacije).Naziv);
+            Assert.AreEqual("radioloska", EvidencijaOrdinacija.GetOrdinacijaById(idOrdinacije).Naziv);
 
             int id = EvidencijaUposlenih.DodajDoktor("David", "Harbour", idOrdinacije);
-            Uposleni temp = EvidencijaUposlenih.Get(id);
+            Uposleni temp = EvidencijaUposlenih.GetUposleniById(id);
             Assert.AreEqual(1500, temp.Plata);
             Assert.IsInstanceOfType(temp, typeof(UposleniDoktor));
         }
@@ -55,7 +55,7 @@ namespace UnitTestKlinika
         public void DodajTech()
         {
             int id = EvidencijaUposlenih.DodajTech("Finn", "Wolfhard");
-            Uposleni temp = EvidencijaUposlenih.Get(id);
+            Uposleni temp = EvidencijaUposlenih.GetUposleniById(id);
             Assert.AreEqual(1400, temp.Plata);
             Assert.IsInstanceOfType(temp, typeof(UposleniTech));
         }
@@ -64,7 +64,7 @@ namespace UnitTestKlinika
         public void DodajTehnicar()
         {
             int id = EvidencijaUposlenih.DodajTehnicar("Millie Bobby", "Brown");
-            Uposleni temp = EvidencijaUposlenih.Get(id);
+            Uposleni temp = EvidencijaUposlenih.GetUposleniById(id);
             Assert.AreEqual(1200, temp.Plata);
             Assert.IsInstanceOfType(temp, typeof(UposleniTehnicar));
         }
@@ -73,7 +73,7 @@ namespace UnitTestKlinika
         public void DodajUprava()
         {
             int id = EvidencijaUposlenih.DodajUprava("Gaten", "Matarazzo");
-            Uposleni temp = EvidencijaUposlenih.Get(id);
+            Uposleni temp = EvidencijaUposlenih.GetUposleniById(id);
             Assert.AreEqual(2000, temp.Plata);
             Assert.IsInstanceOfType(temp, typeof(UposleniUprava));
         }

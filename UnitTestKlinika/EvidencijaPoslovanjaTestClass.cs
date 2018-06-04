@@ -36,9 +36,9 @@ namespace UnitTestKlinika
             EvidencijaPacijenata.PlacanjeRateIzvrsiPlacanje(id);
             EvidencijaPacijenata.PlacanjeRateIzvrsiPlacanje(id);
 
-            Assert.AreEqual(0, EvidencijaPacijenata.Get(id).FiskalniRacun.NeplaceniIznos, "plaćene sve rate");
+            Assert.AreEqual(0, EvidencijaPacijenata.GetPacijentById(id).FiskalniRacun.NeplaceniIznos, "plaćene sve rate");
             StringAssert.Contains(EvidencijaPacijenata.PlacanjeRateIspostaviRacun(id), "total: 0");
-            Assert.AreEqual(0, EvidencijaPacijenata.Get(id).FiskalniRacun.AktivniSistematskiPregledi.Count, "broj aktivnih sistematskih pregleda - plaćene rate");
+            Assert.AreEqual(0, EvidencijaPacijenata.GetPacijentById(id).FiskalniRacun.AktivniSistematskiPregledi.Count, "broj aktivnih sistematskih pregleda - plaćene rate");
 
             idSistematskog = EvidencijaPacijenata.ZakaziSistematskiPregled(id);
             EvidencijaPacijenata.ObaviStavkuSistematskog(id, idSistematskog, DateTime.Now, "ok", true, TipSistematskog.Opci);

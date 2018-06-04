@@ -27,7 +27,7 @@ namespace BLLKlinika
             }
             try
             {
-                return Get(idOrdinacije).Aparati.Find(p => p.Id == idAparata);
+                return GetOrdinacijaById(idOrdinacije).Aparati.Find(p => p.Id == idAparata);
             }
             catch(ArgumentNullException e)
             {
@@ -35,7 +35,7 @@ namespace BLLKlinika
             }
             
         }
-        public static Ordinacija Get(int idOrdinacije)
+        public static Ordinacija GetOrdinacijaById(int idOrdinacije)
         {
             if(idOrdinacije < 0 || idOrdinacije >= _idGeneratorOrdinacija)
             {
@@ -48,7 +48,7 @@ namespace BLLKlinika
 
         public static int DodajAparat(int idOrdinacije, string nazivAparata)
         {
-            Ordinacija tempOrdinacija = Get(idOrdinacije);
+            Ordinacija tempOrdinacija = GetOrdinacijaById(idOrdinacije);
             Aparat tempAparat = new Aparat(nazivAparata);
             tempAparat.Id = _idGeneratorAparat++;
             tempOrdinacija.Aparati.Add(tempAparat);
@@ -104,14 +104,14 @@ namespace BLLKlinika
         }
         public static int DodajPacijenta(int idOrdinacije, int idPacijenta)
         {
-            Ordinacija tempOrdinacija = Get(idOrdinacije);
-            Pacijent tempPacijent = EvidencijaPacijenata.Get(idPacijenta);
+            Ordinacija tempOrdinacija = GetOrdinacijaById(idOrdinacije);
+            Pacijent tempPacijent = EvidencijaPacijenata.GetPacijentById(idPacijenta);
             tempOrdinacija.RedCekanja.Add(tempPacijent);
             return tempOrdinacija.RedCekanja.Count();
         }
         public static void OpsluziPacijenta(int idOrdinacije)
         {
-            Ordinacija tempOrdinacija = Get(idOrdinacije);
+            Ordinacija tempOrdinacija = GetOrdinacijaById(idOrdinacije);
 
             if(tempOrdinacija.RedCekanja.Count == 0)
             {

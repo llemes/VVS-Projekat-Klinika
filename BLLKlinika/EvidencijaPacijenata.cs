@@ -14,7 +14,7 @@ namespace BLLKlinika
 
         public static bool TestMode = false;
 
-        public static Pacijent Get(int idPacijenta)
+        public static Pacijent GetPacijentById(int idPacijenta)
         {
             if(idPacijenta < 0 || idPacijenta > _idGeneratorPacijent)
             {
@@ -77,7 +77,7 @@ namespace BLLKlinika
         }
         public static void DodajPodatkePacijenta(int idPacijenta, DateTime datumRodjenja, Spol spol, string adresaStanovanja, BracnoStanje bracnoStanje)
         {
-            Pacijent temp = Get(idPacijenta);
+            Pacijent temp = GetPacijentById(idPacijenta);
             temp.DatumRodjenja = datumRodjenja;
             temp.Spol = spol;
             temp.AdresaStanovanja = adresaStanovanja;
@@ -89,12 +89,12 @@ namespace BLLKlinika
         
         public static void EvidentirajPorodicnoZdravstvenoStanje(int idPacijenta, string clanPorodice, string bolest)
         {
-            Pacijent temp = Get(idPacijenta);
+            Pacijent temp = GetPacijentById(idPacijenta);
             temp.Karton.Porodica(new Tuple<string, string>(clanPorodice, bolest));
         }
         public static void EvidentirajAlergiju(int idPacijenta, string nazivAlergije, bool aktivnaAlergija)
         {
-            Pacijent temp = Get(idPacijenta);
+            Pacijent temp = GetPacijentById(idPacijenta);
             Alergija tempAlergija = new Alergija();
             tempAlergija.Naziv = nazivAlergije;
             tempAlergija.Aktivna = aktivnaAlergija;
@@ -102,7 +102,7 @@ namespace BLLKlinika
         }
         public static void EvidentirajBolest(int idPacijenta, string nazivBolesti, bool aktivnaBolest)
         {
-            Pacijent tempPacijent = Get(idPacijenta);
+            Pacijent tempPacijent = GetPacijentById(idPacijenta);
             Bolest tempBolest = new Bolest(nazivBolesti, aktivnaBolest);
             tempPacijent.Karton.Add(tempBolest);
         }
@@ -112,7 +112,7 @@ namespace BLLKlinika
         #region Sistematski
         public static int ZakaziSistematskiPregled(int idPacijenta)
         {
-            Pacijent tempPacijent = Get(idPacijenta);
+            Pacijent tempPacijent = GetPacijentById(idPacijenta);
             PregledSistematski tempPregledSistematski = new PregledSistematski();
             tempPregledSistematski.Id = _idGeneratorPregledSistematski++;
 
@@ -128,7 +128,7 @@ namespace BLLKlinika
                 throw new ArgumentException("Sistematski pregled sa id " + idPregledSistematskiEvidencija + " ne postoji");
             }
 
-            Pacijent tempPacijent = Get(idPacijenta);
+            Pacijent tempPacijent = GetPacijentById(idPacijenta);
             
             try
             {
@@ -156,7 +156,7 @@ namespace BLLKlinika
                 throw new ArgumentException("Sistematski pregled sa id " + idPregledSistematskiEvidencija + " ne postoji");
             }
 
-            Pacijent tempPacijent = Get(idPacijenta);
+            Pacijent tempPacijent = GetPacijentById(idPacijenta);
             PregledSistematski temp = tempPacijent.Karton.PreglediSistematski.Find(p => p.Id == idPregledSistematskiEvidencija);
             return temp.PotrebniPregledi();
         }
@@ -166,7 +166,7 @@ namespace BLLKlinika
 
         public static void DodajHitniPregled(int idPacijenta, DateTime vrijemePregleda, decimal cijena, string naziv, bool prvaPomocUradjena, string prvaPomocRazlog)
         {
-            Pacijent temp = Get(idPacijenta);
+            Pacijent temp = GetPacijentById(idPacijenta);
             PregledHitni tempPregled = new PregledHitni(vrijemePregleda, cijena, naziv, prvaPomocUradjena, prvaPomocRazlog);
 
             temp.Karton.Add(tempPregled);
@@ -176,7 +176,7 @@ namespace BLLKlinika
 
         public static void DodajHitniPregledSmrt(int idPacijenta, DateTime vrijemePregleda, decimal cijena, string naziv, bool prvaPomocUradjena, string prvaPomocRazlog, DateTime vrijemeSmrti, string uzrokSmrti, DateTime terminObdukcije)
         {
-            Pacijent temp = Get(idPacijenta);
+            Pacijent temp = GetPacijentById(idPacijenta);
             PregledHitni tempPregled = new PregledHitni(vrijemePregleda, cijena, naziv, prvaPomocUradjena, prvaPomocRazlog);
             tempPregled.SmrtEvidencija(vrijemeSmrti, uzrokSmrti, terminObdukcije);
 
@@ -190,7 +190,7 @@ namespace BLLKlinika
 
         public static void DodajNormalniPregled(int idPacijenta)
         {
-            Pacijent temp = Get(idPacijenta);
+            Pacijent temp = GetPacijentById(idPacijenta);
 
             temp.Karton.Add(temp.PregledNormalniBuilder.GetPregled());
             temp.Karton.Bolesti.Add(temp.PregledNormalniBuilder.GetPregled().Rezultat);
@@ -199,27 +199,27 @@ namespace BLLKlinika
         }
         public static void KreirajNormalniPregled(int idPacijenta)
         {
-            Pacijent temp = Get(idPacijenta);
+            Pacijent temp = GetPacijentById(idPacijenta);
             temp.PregledNormalniBuilder = new PregledNormalniBuilder();
         }
         public static void DodajLijekUTerapiju(int idPacijenta, string nazivLijeka, double kolicina, string mjera, int frekvencijaUzimanja, string mjeraFrekvencijeUzimanja)
         {
-            Pacijent temp = Get(idPacijenta);
+            Pacijent temp = GetPacijentById(idPacijenta);
             temp.PregledNormalniBuilder.ConstructLijekovi(nazivLijeka, kolicina, mjera, frekvencijaUzimanja, mjeraFrekvencijeUzimanja);   
         }
         public static void DodajKratkorocnuTerapiju(int idPacijenta, DateTime datumPotpisivanja, DateTime krajTerapije)
         {
-            Pacijent temp = Get(idPacijenta);
+            Pacijent temp = GetPacijentById(idPacijenta);
             temp.PregledNormalniBuilder.ConstructTerapijaKratkorocna(datumPotpisivanja, krajTerapije);
         }
         public static void DodajDugorocnuTerapiju(int idPacijenta, DateTime datumPotpisivanja)
         {
-            Pacijent temp = Get(idPacijenta);
+            Pacijent temp = GetPacijentById(idPacijenta);
             temp.PregledNormalniBuilder.ConstructTerapijaDugorocna(datumPotpisivanja);
         }
         public static void DodajDetaljeNormalnogPregleda(int idPacijenta, DateTime vrijemePregleda, decimal cijenaPregleda, string nazivPregleda, string misljenjeDoktora, string nazivBolesti)
         {
-            Pacijent temp = Get(idPacijenta);
+            Pacijent temp = GetPacijentById(idPacijenta);
             temp.PregledNormalniBuilder.ConstructPregledNormalni(vrijemePregleda, cijenaPregleda, nazivPregleda, misljenjeDoktora, nazivBolesti);
         }
 
@@ -229,13 +229,13 @@ namespace BLLKlinika
 
         public static string PlacanjeRateIspostaviRacun(int idPacijent)
         {
-            Pacijent temp = Get(idPacijent);
+            Pacijent temp = GetPacijentById(idPacijent);
             string odrezak = temp.FiskalniRacun.OdrezakRate(idPacijent);
             return odrezak;
         }
         public static void PlacanjeRateIzvrsiPlacanje(int idPacijent)
         {
-            Pacijent temp = Get(idPacijent);
+            Pacijent temp = GetPacijentById(idPacijent);
             if(TestMode)
             {
                 EvidencijaPoslovanja.EvidentirajTransakciju(DateTime.Now.AddMonths(-1), temp, temp.FiskalniRacun.PlatiRatu());
@@ -248,13 +248,13 @@ namespace BLLKlinika
 
         public static string PlacanjeGotovinaIspostaviRacun(int idPacijenta)
         {
-            Pacijent temp = Get(idPacijenta);
+            Pacijent temp = GetPacijentById(idPacijenta);
             string odrezak = temp.FiskalniRacun.OdrezakGotovina(idPacijenta);
             return odrezak;
         }
         public static void PlacanjeGotovinaIzvrsiPlacanje(int idPacijenta)
         {
-            Pacijent temp = Get(idPacijenta);
+            Pacijent temp = GetPacijentById(idPacijenta);
             if(TestMode)
             {
                 EvidencijaPoslovanja.EvidentirajTransakciju(DateTime.Now.AddMonths(-1), temp, temp.FiskalniRacun.PlatiGotovina());

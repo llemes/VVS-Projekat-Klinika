@@ -15,7 +15,7 @@ namespace BLLKlinika
         public UposleniDoktor(string ime, string prezime, int idOrdinacije)
         {
             DataValidator.ValidateName(ime, prezime);
-            Ordinacija = EvidencijaOrdinacija.Get(idOrdinacije);
+            Ordinacija = EvidencijaOrdinacija.GetOrdinacijaById(idOrdinacije);
             Ime = ime;
             Prezime = prezime;
             Plata = _BAZNA_PLATA;

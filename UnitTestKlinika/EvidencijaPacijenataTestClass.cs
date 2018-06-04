@@ -37,13 +37,13 @@ namespace UnitTestKlinika
         [TestMethod]
         public void AddPacijent()
         {            
-            Assert.AreEqual("Dyer", EvidencijaPacijenata.Get(id2).Prezime);
-            Assert.AreEqual("Charlie", EvidencijaPacijenata.Get(id3).Ime);
+            Assert.AreEqual("Dyer", EvidencijaPacijenata.GetPacijentById(id2).Prezime);
+            Assert.AreEqual("Charlie", EvidencijaPacijenata.GetPacijentById(id3).Ime);
         }
         [TestMethod]
         public void AddPacijentDetalji()
         {
-            Assert.AreEqual(new DateTime(1997, 1, 13), EvidencijaPacijenata.Get(id2).DatumRodjenja);
+            Assert.AreEqual(new DateTime(1997, 1, 13), EvidencijaPacijenata.GetPacijentById(id2).DatumRodjenja);
         }
         [TestMethod]
         public void Anamneza() // u suštini test na nullreference
@@ -122,8 +122,8 @@ namespace UnitTestKlinika
         {
             EvidencijaPacijenata.DodajHitniPregled(id1, DateTime.Now, 10, "defibrilacija", true, "-");
             
-            CollectionAssert.AllItemsAreInstancesOfType(EvidencijaPacijenata.Get(id1).Karton.Pregledi, typeof(PregledHitni));
-            Assert.IsNotNull((EvidencijaPacijenata.Get(id1).Karton.Pregledi[EvidencijaPacijenata.Get(id1).Karton.Pregledi.Count - 1] as PregledHitni).PrvaPomocUradjena);
+            CollectionAssert.AllItemsAreInstancesOfType(EvidencijaPacijenata.GetPacijentById(id1).Karton.Pregledi, typeof(PregledHitni));
+            Assert.IsNotNull((EvidencijaPacijenata.GetPacijentById(id1).Karton.Pregledi[EvidencijaPacijenata.GetPacijentById(id1).Karton.Pregledi.Count - 1] as PregledHitni).PrvaPomocUradjena);
         }
 
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\podaci.csv", "podaci#csv", DataAccessMethod.Sequential), DeploymentItem("podaci.csv"), TestMethod]
@@ -150,7 +150,7 @@ namespace UnitTestKlinika
 
             EvidencijaPacijenata.DodajNormalniPregled(id3);
 
-            PregledNormalni pn = EvidencijaPacijenata.Get(id3).Karton.Pregledi.Find(p => (p as PregledNormalni).MisljenjeDoktora == "ok") as PregledNormalni;
+            PregledNormalni pn = EvidencijaPacijenata.GetPacijentById(id3).Karton.Pregledi.Find(p => (p as PregledNormalni).MisljenjeDoktora == "ok") as PregledNormalni;
 
             Assert.AreEqual("brufen", pn.Terapija.Lijekovi[0].Naziv);
 
@@ -189,9 +189,9 @@ namespace UnitTestKlinika
             EvidencijaPacijenata.PlacanjeRateIzvrsiPlacanje(id);
             EvidencijaPacijenata.PlacanjeRateIzvrsiPlacanje(id);
 
-            Assert.AreEqual(0, EvidencijaPacijenata.Get(id).FiskalniRacun.NeplaceniIznos, "plaćene sve rate");
+            Assert.AreEqual(0, EvidencijaPacijenata.GetPacijentById(id).FiskalniRacun.NeplaceniIznos, "plaćene sve rate");
             StringAssert.Contains(EvidencijaPacijenata.PlacanjeRateIspostaviRacun(id), "total: 0");
-            Assert.AreEqual(0, EvidencijaPacijenata.Get(id).FiskalniRacun.AktivniSistematskiPregledi.Count, "broj aktivnih sistematskih pregleda - plaćene rate");
+            Assert.AreEqual(0, EvidencijaPacijenata.GetPacijentById(id).FiskalniRacun.AktivniSistematskiPregledi.Count, "broj aktivnih sistematskih pregleda - plaćene rate");
 
             idSistematskog = EvidencijaPacijenata.ZakaziSistematskiPregled(id);
             EvidencijaPacijenata.ObaviStavkuSistematskog(id, idSistematskog, DateTime.Now, "ok", true, TipSistematskog.Opci);
@@ -203,9 +203,9 @@ namespace UnitTestKlinika
 
             EvidencijaPacijenata.PlacanjeGotovinaIzvrsiPlacanje(id);
             
-            Assert.AreEqual(0, EvidencijaPacijenata.Get(id).FiskalniRacun.NeplaceniIznos, "plaćeno gotovinom");
+            Assert.AreEqual(0, EvidencijaPacijenata.GetPacijentById(id).FiskalniRacun.NeplaceniIznos, "plaćeno gotovinom");
             StringAssert.Contains(EvidencijaPacijenata.PlacanjeRateIspostaviRacun(id), "total: 0");
-            Assert.AreEqual(0, EvidencijaPacijenata.Get(id).FiskalniRacun.AktivniSistematskiPregledi.Count, "broj aktivnih sistematskih pregleda - plaćeno gotovinom");
+            Assert.AreEqual(0, EvidencijaPacijenata.GetPacijentById(id).FiskalniRacun.AktivniSistematskiPregledi.Count, "broj aktivnih sistematskih pregleda - plaćeno gotovinom");
         }
 
         [TestMethod]
@@ -218,17 +218,17 @@ namespace UnitTestKlinika
             StringAssert.Contains(EvidencijaPacijenata.PlacanjeRateIspostaviRacun(id1), "defibrilacija");
             
             EvidencijaPacijenata.PlacanjeRateIzvrsiPlacanje(id1);
-            Assert.AreNotEqual(0, EvidencijaPacijenata.Get(id1).FiskalniRacun.NeplaceniIznos);
+            Assert.AreNotEqual(0, EvidencijaPacijenata.GetPacijentById(id1).FiskalniRacun.NeplaceniIznos);
             EvidencijaPacijenata.PlacanjeRateIzvrsiPlacanje(id1);
             EvidencijaPacijenata.PlacanjeRateIzvrsiPlacanje(id1);
             EvidencijaPacijenata.PlacanjeRateIzvrsiPlacanje(id1);
-            Assert.AreNotEqual(0, EvidencijaPacijenata.Get(id1).FiskalniRacun.NeplaceniIznos);
+            Assert.AreNotEqual(0, EvidencijaPacijenata.GetPacijentById(id1).FiskalniRacun.NeplaceniIznos);
             EvidencijaPacijenata.PlacanjeRateIzvrsiPlacanje(id1);
             EvidencijaPacijenata.PlacanjeRateIzvrsiPlacanje(id1);
 
-            Assert.AreEqual(0, EvidencijaPacijenata.Get(id1).FiskalniRacun.NeplaceniIznos);
+            Assert.AreEqual(0, EvidencijaPacijenata.GetPacijentById(id1).FiskalniRacun.NeplaceniIznos);
             StringAssert.Contains(EvidencijaPacijenata.PlacanjeRateIspostaviRacun(id1), "total: 0");
-            Assert.AreEqual(0, EvidencijaPacijenata.Get(id1).FiskalniRacun.AktivniPregledi.Count);
+            Assert.AreEqual(0, EvidencijaPacijenata.GetPacijentById(id1).FiskalniRacun.AktivniPregledi.Count);
         }
 
         [TestMethod]
@@ -240,9 +240,9 @@ namespace UnitTestKlinika
 
             StringAssert.Contains(EvidencijaPacijenata.PlacanjeGotovinaIspostaviRacun(id2), "reanimacija");
 
-            Assert.AreNotEqual(0, EvidencijaPacijenata.Get(id2).FiskalniRacun.NeplaceniIznos);
+            Assert.AreNotEqual(0, EvidencijaPacijenata.GetPacijentById(id2).FiskalniRacun.NeplaceniIznos);
             EvidencijaPacijenata.PlacanjeGotovinaIzvrsiPlacanje(id2);
-            Assert.AreEqual(0, EvidencijaPacijenata.Get(id2).FiskalniRacun.NeplaceniIznos);
+            Assert.AreEqual(0, EvidencijaPacijenata.GetPacijentById(id2).FiskalniRacun.NeplaceniIznos);
 
         }
 
@@ -255,9 +255,9 @@ namespace UnitTestKlinika
             EvidencijaPacijenata.DodajHitniPregled(id2, DateTime.Now, 10, "pregled 2", true, "-");
 
             EvidencijaPacijenata.PlacanjeRateIspostaviRacun(id2);
-            decimal cijena1 = EvidencijaPacijenata.Get(id2).FiskalniRacun.NeplaceniIznos;
+            decimal cijena1 = EvidencijaPacijenata.GetPacijentById(id2).FiskalniRacun.NeplaceniIznos;
             EvidencijaPacijenata.PlacanjeGotovinaIspostaviRacun(id2); ;
-            decimal cijena2 = EvidencijaPacijenata.Get(id2).FiskalniRacun.NeplaceniIznos;
+            decimal cijena2 = EvidencijaPacijenata.GetPacijentById(id2).FiskalniRacun.NeplaceniIznos;
 
             Assert.AreNotEqual(cijena1, cijena2);
 
@@ -271,9 +271,9 @@ namespace UnitTestKlinika
             EvidencijaPacijenata.DodajHitniPregled(id4, DateTime.Now, 30, "pregled", true, "razlog");
 
             EvidencijaPacijenata.PlacanjeGotovinaIspostaviRacun(id4);
-            decimal cijena1 = EvidencijaPacijenata.Get(id4).FiskalniRacun.NeplaceniIznos;
+            decimal cijena1 = EvidencijaPacijenata.GetPacijentById(id4).FiskalniRacun.NeplaceniIznos;
             EvidencijaPacijenata.PlacanjeRateIspostaviRacun(id4);
-            decimal cijena2 = EvidencijaPacijenata.Get(id4).FiskalniRacun.NeplaceniIznos;
+            decimal cijena2 = EvidencijaPacijenata.GetPacijentById(id4).FiskalniRacun.NeplaceniIznos;
 
             Assert.AreNotEqual(cijena1, cijena2);
         }
@@ -285,7 +285,7 @@ namespace UnitTestKlinika
         [TestMethod]
         public void HistorijaPacijenta()
         {
-            Assert.IsInstanceOfType((EvidencijaPacijenata.Get(ids1) as PacijentStub).historijaPacijenta(), typeof(Karton));
+            Assert.IsInstanceOfType((EvidencijaPacijenata.GetPacijentById(ids1) as PacijentStub).historijaPacijenta(), typeof(Karton));
             /*
             EvidencijaPacijenata.DodajHitniPregled(ids1, DateTime.Now, 20, "-", false, "-");
             Assert.AreEqual(1, (EvidencijaPacijenata.Get(ids1) as PacijentStub).historijaPacijenta().Pregledi.Count);
@@ -295,7 +295,7 @@ namespace UnitTestKlinika
         [TestMethod]
         public void PrikaziRanijeTerapije()
         {
-            Assert.IsInstanceOfType((EvidencijaPacijenata.Get(ids2) as PacijentStub).prikaziRanijeTerapije(), typeof(List<Terapija>));
+            Assert.IsInstanceOfType((EvidencijaPacijenata.GetPacijentById(ids2) as PacijentStub).prikaziRanijeTerapije(), typeof(List<Terapija>));
 
             // *puts hard hat on* time to create some regular exams ;_;
             // update: or NOT
@@ -323,7 +323,7 @@ namespace UnitTestKlinika
         [TestMethod]
         public void TrenutnaTerapija()
         {
-            Assert.IsInstanceOfType((EvidencijaPacijenata.Get(ids3) as PacijentStub).trenutnaTerapija(), typeof(Terapija));
+            Assert.IsInstanceOfType((EvidencijaPacijenata.GetPacijentById(ids3) as PacijentStub).trenutnaTerapija(), typeof(Terapija));
             /*
             EvidencijaPacijenata.KreirajNormalniPregled(ids3);
             EvidencijaPacijenata.DodajLijekUTerapiju(ids3, "first xiclav", 1, "tableta", 1, "dnevno");

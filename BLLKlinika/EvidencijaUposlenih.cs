@@ -18,7 +18,7 @@ namespace BLLKlinika
             return (ime[0] + prezime + id).ToLower();
         }
 
-        public static Uposleni Get(int idUposlenog)
+        public static Uposleni GetUposleniById(int idUposlenog)
         {
             if(idUposlenog < 0 || idUposlenog >= _idGeneratorUposleni)
             {
@@ -79,7 +79,7 @@ namespace BLLKlinika
 
         public static void UpdatePassword(int idUposlenog, string password)
         {
-            Uposleni temp = Get(idUposlenog);
+            Uposleni temp = GetUposleniById(idUposlenog);
             temp.Password = password;
         }
         public static void ObracunajPlate() // !!!

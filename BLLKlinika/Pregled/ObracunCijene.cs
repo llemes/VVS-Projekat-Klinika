@@ -30,7 +30,7 @@ namespace BLLKlinika
         }
         public static void PlacanjeGotovina(int idPacijenta)
         {
-            Pacijent temp = EvidencijaPacijenata.Get(idPacijenta);
+            Pacijent temp = EvidencijaPacijenata.GetPacijentById(idPacijenta);
 
             foreach(Pregled pregled in temp.FiskalniRacun.AktivniPregledi)
             { 
@@ -71,7 +71,7 @@ namespace BLLKlinika
         }
         public static void PlacanjeRate(int idPacijenta)
         {
-            Pacijent temp = EvidencijaPacijenata.Get(idPacijenta);
+            Pacijent temp = EvidencijaPacijenata.GetPacijentById(idPacijenta);
 
             foreach (Pregled pregled in temp.FiskalniRacun.AktivniPregledi)
             {
